@@ -1,8 +1,9 @@
 package ontbo
 
 import (
-	"github.com/stretchr/testify/mock"
 	"testing"
+
+	"github.com/stretchr/testify/mock"
 )
 
 type Mock struct {
