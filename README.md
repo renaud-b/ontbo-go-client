@@ -10,7 +10,7 @@ It implements all available endpoints from the official OpenAPI specification (p
 Clone the repository and import the `ontbo` package in your Go project:
 
 ```bash
-go get g  ithub.com/renaud-b/ontbo-go-client
+go get github.com/renaud-b/ontbo-go-client
 ```
 
 ---
