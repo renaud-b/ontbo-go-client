@@ -8,6 +8,7 @@ import (
 )
 
 // ListProfiles → GET /profiles
+// Lists all profiles
 func (c *HttpClient) ListProfiles() ([]Profile, error) {
 	req, err := c.newRequest(http.MethodGet, "/profiles")
 	if err != nil {
@@ -27,6 +28,7 @@ func (c *HttpClient) ListProfiles() ([]Profile, error) {
 }
 
 // CreateProfile → POST /profiles?requested_id=xxx
+// Creates a new profile with an optional requested ID
 func (c *HttpClient) CreateProfile(requestedID string) (*Profile, error) {
 	u := "/profiles"
 	if requestedID != "" {
@@ -50,6 +52,7 @@ func (c *HttpClient) CreateProfile(requestedID string) (*Profile, error) {
 }
 
 // DeleteProfile → DELETE /profiles/{profile_id}
+// Deletes the profile with the given ID
 func (c *HttpClient) DeleteProfile(profileID string) error {
 	req, err := c.newRequest(http.MethodDelete, "/profiles/"+profileID)
 	if err != nil {
@@ -68,6 +71,7 @@ func (c *HttpClient) DeleteProfile(profileID string) error {
 }
 
 // RunProfileUpdate → PUT /profiles/{profile_id}/update/run
+// Starts updating the profile with the given ID
 func (c *HttpClient) RunProfileUpdate(profileID string) (*Profile, error) {
 	u := fmt.Sprintf("/profiles/%s/update/run", profileID)
 	req, err := c.newRequest(http.MethodPut, u)
@@ -88,6 +92,7 @@ func (c *HttpClient) RunProfileUpdate(profileID string) (*Profile, error) {
 }
 
 // StopProfileUpdate → PUT /profiles/{profile_id}/update/stop
+// Stops updating the profile with the given ID
 func (c *HttpClient) StopProfileUpdate(profileID string) (*Profile, error) {
 	u := fmt.Sprintf("/profiles/%s/update/stop", profileID)
 	req, err := c.newRequest(http.MethodPut, u)
@@ -108,6 +113,7 @@ func (c *HttpClient) StopProfileUpdate(profileID string) (*Profile, error) {
 }
 
 // GetProfileUpdateStatus → GET /profiles/{profile_id}/update/status
+// Retrieves the update status of the profile with the given ID
 func (c *HttpClient) GetProfileUpdateStatus(profileID string) (*UpdateStatus, error) {
 	u := fmt.Sprintf("/profiles/%s/update/status", profileID)
 	req, err := c.newRequest(http.MethodGet, u)

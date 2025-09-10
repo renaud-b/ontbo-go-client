@@ -5,6 +5,7 @@ import (
 	"net/http"
 )
 
+// Client is the interface for interacting with the Ontbo service
 type Client interface {
 	BuildContext(profileID, query string) (*QueryResponse, error)
 	ListFacts(profileID string, fields []string, skip, max int) ([]Fact, error)
@@ -26,13 +27,14 @@ type Client interface {
 	QueryScenes(profileID, query string) ([]string, error)
 }
 
+// HttpClient is an implementation of the Client interface using HTTP
 type HttpClient struct {
 	baseURL    string
 	httpClient *http.Client
 	token      string
 }
 
-// NewClient crée un client Ontbo.
+// NewClient create a new Ontbo client
 func NewClient(baseURL, token string) Client {
 	return &HttpClient{
 		baseURL:    baseURL,
@@ -41,6 +43,7 @@ func NewClient(baseURL, token string) Client {
 	}
 }
 
+// newRequest creates a new HTTP request with the appropriate headers
 func (c *HttpClient) newRequest(method, path string) (*http.Request, error) {
 	url := fmt.Sprintf("%s%s", c.baseURL, path)
 	req, err := http.NewRequest(method, url, nil)

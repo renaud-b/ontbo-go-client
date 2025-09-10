@@ -8,6 +8,7 @@ import (
 )
 
 // BuildContext → GET /profiles/{profile_id}/context?query=...
+// Builds a context for the given query using the specified profile
 func (c *HttpClient) BuildContext(profileID, query string) (*QueryResponse, error) {
 	u := fmt.Sprintf("/profiles/%s/context?query=%s",
 		profileID, url.QueryEscape(query))

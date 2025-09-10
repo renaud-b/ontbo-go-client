@@ -9,6 +9,7 @@ import (
 )
 
 // ListFacts → GET /profiles/{profile_id}/facts
+// Lists facts for the given profile with optional fields, skip, and max parameters
 func (c *HttpClient) ListFacts(profileID string, fields []string, skip, max int) ([]Fact, error) {
 	u := fmt.Sprintf("/profiles/%s/facts", profileID)
 	params := url.Values{}
@@ -49,6 +50,7 @@ func (c *HttpClient) ListFacts(profileID string, fields []string, skip, max int)
 }
 
 // AddFact → POST /profiles/{profile_id}/facts?feedback=...&source_id=...
+// Adds a new fact to the given profile with required feedback and optional sourceID
 func (c *HttpClient) AddFact(profileID, feedback, sourceID string) error {
 	u := fmt.Sprintf("/profiles/%s/facts?feedback=%s", profileID, url.QueryEscape(feedback))
 	if sourceID != "" {
@@ -76,6 +78,7 @@ func (c *HttpClient) AddFact(profileID, feedback, sourceID string) error {
 }
 
 // GetFact → GET /profiles/{profile_id}/facts/{fact_id}
+// Retrieves a specific fact by its ID for the given profile
 func (c *HttpClient) GetFact(profileID, factID string) (*Fact, error) {
 	u := fmt.Sprintf("/profiles/%s/facts/%s", profileID, factID)
 	req, err := c.newRequest(http.MethodGet, u)
@@ -96,6 +99,7 @@ func (c *HttpClient) GetFact(profileID, factID string) (*Fact, error) {
 }
 
 // DeleteFact → DELETE /profiles/{profile_id}/facts/{fact_id}
+// Deletes a specific fact by its ID for the given profile
 func (c *HttpClient) DeleteFact(profileID, factID string) error {
 	u := fmt.Sprintf("/profiles/%s/facts/%s", profileID, factID)
 	req, err := c.newRequest(http.MethodDelete, u)
@@ -114,6 +118,7 @@ func (c *HttpClient) DeleteFact(profileID, factID string) error {
 }
 
 // QueryFacts → GET /profiles/{profile_id}/facts/query
+// Queries facts for the given profile using the specified query and optional queryType
 func (c *HttpClient) QueryFacts(profileID, query, queryType string) (*QueryResponse, error) {
 	if queryType == "" {
 		queryType = "FULL_DATA"

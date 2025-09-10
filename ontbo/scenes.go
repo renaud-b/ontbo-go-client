@@ -10,6 +10,7 @@ import (
 )
 
 // ListScenes → GET /profiles/{profile_id}/scenes
+// Lists all scenes for the given profile
 func (c *HttpClient) ListScenes(profileID string) ([]string, error) {
 	u := fmt.Sprintf("/profiles/%s/scenes", profileID)
 	req, err := c.newRequest(http.MethodGet, u)
@@ -34,6 +35,7 @@ func (c *HttpClient) ListScenes(profileID string) ([]string, error) {
 }
 
 // CreateScene → POST /profiles/{profile_id}/scenes?requested_id=...
+// Creates a new scene for the given profile with an optional requested ID
 func (c *HttpClient) CreateScene(profileID, requestedID string) (*ResponseWithID, error) {
 	u := fmt.Sprintf("/profiles/%s/scenes", profileID)
 	if requestedID != "" {
@@ -62,6 +64,7 @@ func (c *HttpClient) CreateScene(profileID, requestedID string) (*ResponseWithID
 }
 
 // DeleteScene → DELETE /profiles/{profile_id}/scenes/{scene_id}
+// Deletes the scene with the given ID for the specified profile
 func (c *HttpClient) DeleteScene(profileID, sceneID string) error {
 	u := fmt.Sprintf("/profiles/%s/scenes/%s", profileID, sceneID)
 	req, err := c.newRequest(http.MethodDelete, u)
@@ -80,6 +83,7 @@ func (c *HttpClient) DeleteScene(profileID, sceneID string) error {
 }
 
 // GetTextFromScene → GET /profiles/{profile_id}/scenes/{scene_id}/text
+// retrieves the list of messages from the specified scene
 func (c *HttpClient) GetTextFromScene(profileID, sceneID string) ([]SceneMessage, error) {
 	u := fmt.Sprintf("/profiles/%s/scenes/%s/text", profileID, sceneID)
 	req, err := c.newRequest(http.MethodGet, u)
@@ -104,7 +108,7 @@ func (c *HttpClient) GetTextFromScene(profileID, sceneID string) ([]SceneMessage
 }
 
 // AddTextToScene → POST /profiles/{profile_id}/scenes/{scene_id}/text
-// Envoie une liste de messages au format attendu
+// Sends a list of messages to be added to the specified scene
 func (c *HttpClient) AddTextToScene(profileID, sceneID string, messages []SceneMessage, updateNow, waitForResult bool) (*ResponseWithID, error) {
 	u := fmt.Sprintf("/profiles/%s/scenes/%s/text", profileID, sceneID)
 
@@ -119,7 +123,6 @@ func (c *HttpClient) AddTextToScene(profileID, sceneID string, messages []SceneM
 		u += "?" + params.Encode()
 	}
 
-	// encode en JSON
 	body, err := json.Marshal(messages)
 	if err != nil {
 		return nil, err
@@ -151,6 +154,7 @@ func (c *HttpClient) AddTextToScene(profileID, sceneID string, messages []SceneM
 }
 
 // QueryScenes → GET /profiles/{profile_id}/scenes/query?query=...
+// Queries scenes for the given profile using the specified query string
 func (c *HttpClient) QueryScenes(profileID, query string) ([]string, error) {
 	u := fmt.Sprintf("/profiles/%s/scenes/query?query=%s", profileID, url.QueryEscape(query))
 
